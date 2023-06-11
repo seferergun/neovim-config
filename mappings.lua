@@ -1,5 +1,13 @@
 local M = {}
 
+
+M.customer_mapping = {
+  n = {
+    ["<leader>rb"] = { "<cmd> Cargo build <CR>" },
+    ["<leader>rr"] = { "<cmd> Cargo run <CR>" },
+  }
+}
+
 M.dap = {
   plugin = true,
   n = {

@@ -11,6 +11,9 @@ local plugins = {
   },
   {
     "neovim/nvim-lspconfig",
+    init = function()
+      vim.cmd[[compiler cargo]]
+    end,
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
@@ -34,7 +37,7 @@ local plugins = {
       vim.g.rustfmt_autosave = 1
     end
   },
-  --[[{
+  {
     "mfussenegger/nvim-dap",
     init = function()
       require("core.utils").load_mappings("dap")
@@ -42,7 +45,10 @@ local plugins = {
   },
   {
     'saecki/crates.nvim',
-    ft = {"rust", "toml"},
+    ft = {"toml"},
+    init = function ()
+      require("core.utils").load_mappings("crates")
+    end,
     config = function(_, opts)
       local crates  = require('crates')
       crates.setup(opts)
@@ -50,15 +56,7 @@ local plugins = {
         sources = { { name = "crates" }}
       })
       crates.show()
-      require("core.utils").load_mappings("crates")
     end,
-  },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function ()
-      vim.g.rustfmt_autosave = 1
-    end
   },
   {
     "theHamsta/nvim-dap-virtual-text",
@@ -79,7 +77,7 @@ local plugins = {
       table.insert(M.sources, {name = "crates"})
       return M
     end,
-  }]]--
+  }
 }
 
 return plugins
