@@ -6,9 +6,7 @@ require("mason-lspconfig").setup()
 
 local lspconfig = require("lspconfig")
 local util = require "lspconfig/util"
-local servers = { "html", "cssls", "clangd", "lua_ls", "omnisharp" }
-
-
+local servers = { "html", "cssls", "clangd", "lua_ls", "omnisharp", "tsserver" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -17,26 +15,19 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-
 lspconfig.gdscript.setup {
   on_attach = on_attach,
   capabilities = capabilities,
-  flags = {
-    debounce_text_changes = 150,
-  }
+  cmd = {'ncat', 'localhost', '6005'},
 }
 
-
---[[lspconfig.rust_analyzer.setup({
-  on_attach = on_attach,
+lspconfig.eslint.setup({
   capabilities = capabilities,
-  filetypes = {"rust"},
-  root_dir = util.root_pattern("Cargo.toml"),
-  settings = {
-    ['rust-analyzer'] = {
-      cargo = {
-        allFeatures = true,
-      }
-    }
-  }
-})]]--
+  on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
+})
+

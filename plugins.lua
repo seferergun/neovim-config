@@ -9,7 +9,10 @@ local plugins = {
         "rust-analyzer",
         "omnisharp",
         "stylua",
-        "csharpier"
+        "csharpier",
+        "typescript-language-server",
+        "prettier",
+        "eslint-lsp"
       },
     },
   },
